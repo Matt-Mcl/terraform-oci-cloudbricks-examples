@@ -6,12 +6,10 @@
 
 output "MasterNode" {
   description = "Redis Master Instance"
-  sensitive   = true
   value       = module.redis01.redis_master_server
 }
 
 output "ReplicaNodes" {
   description = "Redis Replica Instances"
-  sensitive   = true
   value       = module.redis01.redis_replica_servers
 }

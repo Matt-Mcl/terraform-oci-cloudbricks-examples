@@ -1,3 +1,31 @@
-// see https://github.com/oracle-devrel/action-release-zip-maker for docs
 [
+  {
+    "action": "create_zip",
+    "file_name": "databases-redis-example.zip",
+    "files": [
+      {
+        "src_pattern": "CLI/databases/redis/*.tf",
+        "dst_path": ".",
+        "exclude": [
+          "backend.tf",
+          "provider.tf"
+        ]
+      },
+      {
+        "src": "CLI/databases/redis/orm/provider.tf",
+        "dst": "provider.tf"
+      },
+      {
+        "src": "LICENSE"
+      },
+      {
+        "src": "CLI/databases/redis/schema.yaml",
+        "dst": "schema.yaml"
+      }
+    ]
+  },
+  {
+    "action": "upload_file",
+    "file_name": "databases-redis-example.zip"
+  }
 ]

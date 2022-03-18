@@ -13,29 +13,26 @@ private_key_path = "/absolute/path/to/api/key/your_api_key.pem"
 ######################################## COMMON VARIABLES ######################################
 ######################################## ARTIFACT SPECIFIC VARIABLES ######################################
 redis01_ssh_public_key                          = "/absolute/path/to/api/key/your_ssh_public_key.pub"
-redis01_ssh_private_key                         = "/absolute/path/to/api/key/your_ssh_private_key"
 redis01_compute_nsg_name                        = "MY_NSG"
 redis01_linux_compute_instance_compartment_name = "MY_ARTIFACT_COMPARTMENT"
 redis01_linux_compute_network_compartment_name  = "MY_NETWORK_COMPARTMENT"
 redis01_private_network_subnet_name             = "MY_PRIVATE_SUBNET"
 redis01_vcn_display_name                        = "MY_VCN"
 
-redis01_redis_master_name          = "MY_REDIS_MASTER_NAME"
-redis01_redis_master_shape         = "VM.Standard2.1"
-redis01_redis_master_ad            = "aBCD:RE-REGION-1-AD-1"
-redis01_redis_master_fd            = "FAULT-DOMAIN-1"
-redis01_redis_master_is_flex_shape = false
-redis01_redis_master_ocpus         = ""
-redis01_redis_master_memory_in_gb  = ""
+redis01_redis_master_name         = "MY_REDIS_MASTER_NAME"
+redis01_redis_master_shape        = "VM.Standard2.1"
+redis01_redis_master_ad           = "aBCD:RE-REGION-1-AD-1"
+redis01_redis_master_fd           = "FAULT-DOMAIN-1"
+redis01_redis_master_ocpus        = ""
+redis01_redis_master_memory_in_gb = ""
 
-redis01_redis_replica_name          = "MY_REDIS_REPLICA_NAME"
-redis01_redis_replica_count         = "3"
-redis01_redis_replica_shape         = "VM.Standard2.1"
-redis01_redis_replica_ad_list       = ["aBCD:RE-REGION-1-AD-1", "aBCD:RE-REGION-1-AD-2", "aBCD:RE-REGION-1-AD-3"]
-redis01_redis_replica_fd_list       = ["FAULT-DOMAIN-1", "FAULT-DOMAIN-2", "FAULT-DOMAIN-3"]
-redis01_redis_replica_is_flex_shape = false
-redis01_redis_replica_memory_in_gb  = ""
-redis01_redis_replica_ocpus         = ""
+redis01_redis_replica_name         = "MY_REDIS_REPLICA_NAME"
+redis01_redis_replica_count        = "3"
+redis01_redis_replica_shape        = "VM.Standard2.1"
+redis01_redis_replica_ad_count     = "3"
+redis01_redis_replica_fd_count     = "3"
+redis01_redis_replica_ocpus        = ""
+redis01_redis_replica_memory_in_gb = ""
 
 redis01_redis_version = "6.2.5"
 

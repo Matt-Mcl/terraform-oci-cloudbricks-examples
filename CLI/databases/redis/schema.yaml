@@ -1,0 +1,401 @@
+## Copyright (c) 2021 Oracle and/or its affiliates.
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
+title: "Create a master-replica Redis cluster on Oracle Cloud Infrastructure Compute instances"
+stackDescription: "Create a master-replica Redis cluster on Oracle Cloud Infrastructure Compute instances to take advantage of in-memory data structure store that is used as a database, cache, and message broker."
+schemaVersion: 1.1.0
+version: "20190404"
+locale: "en"
+
+variableGroups:
+- title: General Configuration
+  visible: true
+  variables:
+  - region
+  - tenancy_ocid
+  - user_ocid
+  - fingerprint
+  - private_key_path
+  - redis01_is_orm
+
+- title: General Compute Configuration
+  visible: true
+  variables:
+  - redis01_ssh_public_key
+  - redis01_linux_compute_instance_compartment_name
+  - redis01_linux_compute_network_compartment_name
+  - redis01_vcn_display_name
+  - redis01_private_network_subnet_name
+  - redis01_compute_nsg_name
+  - redis01_instance_backup_policy_level
+  - redis01_redis_version
+
+- title: Redis Master Configuration
+  visible: true
+  variables:
+  - redis01_redis_master_name
+  - redis01_redis_master_shape
+  - redis01_redis_master_ocpus
+  - redis01_redis_master_memory_in_gb
+  - redis01_redis_master_ad
+  - redis01_redis_master_fd
+  - redis01_master_disk_size_in_gb
+  - redis01_master_disk_vpus_per_gb
+  - redis01_master_backup_policy_level
+
+- title: Redis Replica Configuration
+  visible: true
+  variables:
+  - redis01_redis_replica_name
+  - redis01_redis_replica_count
+  - redis01_redis_replica_shape
+  - redis01_redis_replica_ocpus
+  - redis01_redis_replica_memory_in_gb
+  - redis01_redis_replica_ad_count
+  - redis01_redis_replica_fd_count
+  - redis01_replica_disk_size_in_gb
+  - redis01_replica_disk_vpus_per_gb
+  - redis01_replica_backup_policy_level
+
+variables:
+
+  user_ocid:
+    type: string
+    required: false
+    default: "default"
+
+  fingerprint:
+    type: string
+    required: false
+    default: "default"
+
+  private_key_path:
+    type: string
+    required: false
+    default: "default"
+
+  redis01_is_orm:
+    type: boolean
+    required: false
+    default: true
+
+
+  redis01_ssh_public_key:
+    type: oci:core:ssh:publickey
+    title: "Public SSH Key"
+    description: "Enter public SSH Key to be uploaded into compute instances."
+    required: true
+
+  redis01_linux_compute_instance_compartment_name:
+    type: oci:identity:compartment:id
+    required: true
+    visibile: true
+    title: "Compartment"
+    description: "Choose the compartment where you want to create the solution resources."
+
+  redis01_linux_compute_network_compartment_name:
+    type: oci:identity:compartment:id
+    required: true
+    visibile: true
+    title: "Network Compartment"
+    description: "Choose the compartment where the network resources reside."
+
+  redis01_vcn_display_name:
+    type: oci:core:vcn:id
+    required: true
+    visibile: true
+    title: "Virtual Cloud Network"
+    description: "Choose the VCN to provision the compute instance in."
+    dependsOn:
+      compartmentId: ${redis01_linux_compute_network_compartment_name}
+
+  redis01_private_network_subnet_name:
+    type: oci:core:subnet:id
+    required: true
+    visibile: true
+    title: "Private subnet"
+    description: "Choose the private subnet to provision the compute instance in."
+    dependsOn:
+      compartmentId: ${redis01_linux_compute_network_compartment_name}
+      vcnId: ${redis01_vcn_display_name}
+
+  redis01_compute_nsg_name:
+    type: oci:core:nsg:id
+    required: false
+    visibile: true
+    title: "Network Security Group"
+    description: "Choose NSG to be chosen for Redis compute instances."
+    dependsOn:
+      compartmentId: ${redis01_linux_compute_network_compartment_name}
+
+  redis01_instance_backup_policy_level:
+    type: oci:blockstorage:policies:id
+    required: true
+    visibile: true
+    title: Redis compute instance backup policies
+    default: "bronze"
+    description: "Choose the backup policy for redis instance boot volumes."
+
+  redis01_redis_version:
+    type: enum
+    required: true
+    default: 6.2.6
+    title: "Redis version"
+    description: "Choose the version of Redis to deploy on the instances."
+    enum:
+      - 6.2.6
+      - 6.0.16
+      - 5.0.14
+
+
+  redis01_redis_master_name:
+    type: string
+    required: true
+    default: "redismaster"
+    title: "Redis master name"
+    description: "Choose the name for the Redis master compute instance."
+
+  redis01_redis_master_shape:
+    type: oci:core:instanceshape:name
+    required: true
+    default: "VM.Standard2.1"
+    title: "Instance shape for Redis master compute instance"
+    description: "Choose the shape of the VM used for Redis master compute instance."
+    dependsOn:
+      compartmentId: ${compartment_ocid}
+
+  redis01_redis_master_ocpus:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 1
+    title: "Master Flex Shape OCPUs"
+    description: "Choose number of OCPUs for Flex Shape."
+    visible:
+      or:
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.E3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.E4.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Optimized3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.A1.Flex"
+
+  redis01_redis_master_memory_in_gb:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 16
+    title: "Master Flex Shape Memory (GB)"
+    description: "Choose number of GB for Flex Shape Memory."
+    visible:
+      or:
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.E3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.E4.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Optimized3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.A1.Flex"
+
+  redis01_redis_master_ad:
+    type: oci:identity:availabilitydomain:name
+    required: true
+    visibile: true
+    title: Redis master availability domain
+    description: "Choose the availability domain to contain the Redis master instance."
+    dependsOn:
+      compartmentId: ${redis01_linux_compute_instance_compartment_name}
+
+  redis01_redis_master_fd:
+    type: oci:identity:faultdomain:name
+    required: true
+    visibile: true
+    title: Redis master fault domain
+    description: "Choose the fault domain to contain the Redis master instance."
+    dependsOn:
+      compartmentId: ${redis01_linux_compute_instance_compartment_name}
+      availabilityDomainName: ${redis01_redis_master_ad}
+
+  redis01_master_disk_size_in_gb:
+    type: number 
+    required: true
+    visibile: true
+    title: Redis master database disk size
+    default: 50
+    description: "Choose the disk size for the database data on the master instance."
+
+  redis01_master_disk_vpus_per_gb:
+    type: number 
+    required: true
+    visibile: true
+    title: Redis master database VPUs
+    default: 10
+    description: "Choose the VPUs for the database data on the master instance."
+
+  redis01_master_backup_policy_level:
+    type: oci:blockstorage:policies:id
+    required: true
+    visibile: true
+    title: Redis master database backup policy
+    default: "bronze"
+    description: "Choose the backup policy for the database data on the master instance."
+
+
+
+  redis01_redis_replica_name:
+    type: string
+    required: true
+    default: "redisreplica"
+    title: "Redis replica name"
+    description: "Choose the name for the Redis replica compute instances."
+
+  redis01_redis_replica_count:
+    type: number
+    required: true
+    default: 3
+    title: "Redis replica count"
+    description: "Choose the number of Redis replica compute instances."
+
+  redis01_redis_replica_shape:
+    type: oci:core:instanceshape:name
+    required: true
+    default: "VM.Standard2.1"
+    title: "Instance shape for Redis replica compute instances"
+    description: "Choose the shape of the VM used for Redis replica compute instances."
+    dependsOn:
+      compartmentId: ${compartment_ocid}
+
+  redis01_redis_replica_ocpus:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 1
+    title: "Flex Shape OCPUs"
+    description: "Choose number of OCPUs for Flex Shape."
+    visible:
+      or:
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.E3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.E4.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Optimized3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.A1.Flex"
+
+  redis01_redis_replica_memory_in_gb:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 16
+    title: "Flex Shape Memory (GB)"
+    description: "Choose number of GB for Flex Shape Memory."
+    visible:
+      or:
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.E3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.E4.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Optimized3.Flex"
+        - eq:
+          - redis01_redis_master_shape 
+          - "VM.Standard.A1.Flex"
+
+  redis01_redis_replica_ad_count:
+    type: enum
+    required: true
+    default: 3
+    title: "Availbility domain count"
+    description: "Choose the number of ADs to provision the resources across. Change this to 1 if your region only supports a single AD."
+    enum:
+      - 1
+      - 2
+      - 3
+
+  redis01_redis_replica_fd_count:
+    type: enum
+    required: true
+    default: 3
+    title: "Fault domain count"
+    description: "Choose the number of FDs to provision the resources across."
+    enum:
+      - 1
+      - 2
+      - 3
+
+  redis01_replica_disk_size_in_gb:
+    type: number 
+    required: true
+    visibile: true
+    title: Redis replica database disk size
+    default: 50
+    description: "Choose the disk size for the database data on the replica instances."
+
+  redis01_replica_disk_vpus_per_gb:
+    type: number 
+    required: true
+    visibile: true
+    title: Redis replica database VPUs
+    default: 10
+    description: "Choose the VPUs for the database data on the replica instances."
+
+  redis01_replica_backup_policy_level:
+    type: oci:blockstorage:policies:id
+    required: true
+    visibile: true
+    title: Redis replica database backup policy
+    default: "bronze"
+    description: "Choose the backup policy for the database data on the replica instances."
+
+outputs:
+  
+  MasterNode:
+    title: "Redis Master instance data"
+    displayText: "Redis Master instance data"
+    type: copyableString
+    visible: true
+  
+  ReplicaNodes:
+    title: "Redis Replica instance data"
+    displayText: "Redis Replica instance data"
+    type: copyableString
+    visible: true
