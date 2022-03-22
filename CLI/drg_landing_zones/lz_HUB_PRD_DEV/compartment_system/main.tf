@@ -7,7 +7,7 @@
 
 module "mainbizcomp" {
 
-  source = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-compartment.git?ref=v1.0.2"
+  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
   providers = {
     oci.home = oci.home
   }
@@ -19,8 +19,8 @@ module "mainbizcomp" {
   private_key_path = var.private_key_path
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   ######################################## COMPARTMENT SPECIFIC VARIABLES ######################################
-  is_root_parent          = var.mainbizcomp_is_root_parent
-  root_compartment_ocid   = var.mainbizcomp_root_compartment_ocid
+  parent_compartment_name = var.mainbizcomp_parent_compartment_name
+  is_root_child           = var.mainbizcomp_is_root_child
   compartment_name        = var.mainbizcomp_compartment_name
   compartment_description = var.mainbizcomp_compartment_description
   enable_delete           = var.mainbizcomp_enable_delete
@@ -33,7 +33,7 @@ module "hub01" {
   providers = {
     oci.home = oci.home
   }
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-compartment.git?ref=v1.0.2"
+  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
   depends_on = [module.mainbizcomp]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -55,7 +55,7 @@ module "hub01_artifacts" {
   providers = {
     oci.home = oci.home
   }
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-compartment.git?ref=v1.0.2"
+  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
   depends_on = [module.hub01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -77,7 +77,7 @@ module "hub01_network" {
   providers = {
     oci.home = oci.home
   }
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-compartment.git?ref=v1.0.2"
+  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
   depends_on = [module.hub01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -100,7 +100,7 @@ module "prd01" {
   providers = {
     oci.home = oci.home
   }
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-compartment.git?ref=v1.0.2"
+  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
   depends_on = [module.hub01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -122,7 +122,7 @@ module "prd01_artifacts" {
   providers = {
     oci.home = oci.home
   }
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-compartment.git?ref=v1.0.2"
+  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
   depends_on = [module.prd01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -144,7 +144,7 @@ module "prd01_network" {
   providers = {
     oci.home = oci.home
   }
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-compartment.git?ref=v1.0.2"
+  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
   depends_on = [module.prd01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -168,7 +168,7 @@ module "dev01" {
   providers = {
     oci.home = oci.home
   }
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-compartment.git?ref=v1.0.2"
+  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
   depends_on = [module.hub01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -190,7 +190,7 @@ module "dev01_artifacts" {
   providers = {
     oci.home = oci.home
   }
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-compartment.git?ref=v1.0.2"
+  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
   depends_on = [module.dev01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -212,7 +212,7 @@ module "dev01_network" {
   providers = {
     oci.home = oci.home
   }
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-compartment.git?ref=v1.0.2"
+  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
   depends_on = [module.dev01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid

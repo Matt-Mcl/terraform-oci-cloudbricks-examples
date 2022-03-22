@@ -1,0 +1,300 @@
+## Copyright (c) 2021 Oracle and/or its affiliates.
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
+title: "HUB, PRD, DEV Compartment System"
+stackDescription: "Create a Compartment System comprised of a HUB, PRD, DEV structure."
+schemaVersion: 1.1.0
+version: "20190404"
+locale: "en"
+
+variableGroups:
+- title: General Configuration
+  visible: false
+  variables:
+  - region
+  - tenancy_ocid
+
+- title: Main Compartment Configuration
+  visible: true
+  variables:
+  - mainbizcomp_is_root_child
+  - mainbizcomp_parent_compartment_name
+  - mainbizcomp_compartment_name
+  - mainbizcomp_compartment_description
+  - mainbizcomp_enable_delete
+
+- title: Hub Compartment Configuration
+  visible: true
+  variables:
+  - hub01_compartment_name
+  - hub01_compartment_description
+  - hub01_enable_delete
+  - hub01_artifacts_compartment_name
+  - hub01_artifacts_compartment_description
+  - hub01_artifacts_enable_delete
+  - hub01_network_compartment_name
+  - hub01_network_compartment_description
+  - hub01_network_enable_delete
+
+- title: Prod Compartment Configuration
+  visible: true
+  variables:
+  - prd01_compartment_name
+  - prd01_compartment_description
+  - prd01_enable_delete
+  - prd01_artifacts_compartment_name
+  - prd01_artifacts_compartment_description
+  - prd01_artifacts_enable_delete
+  - prd01_network_compartment_name
+  - prd01_network_compartment_description
+  - prd01_network_enable_delete
+
+- title: Dev Compartment Configuration
+  visible: true
+  variables:
+  - dev01_compartment_name
+  - dev01_compartment_description
+  - dev01_enable_delete
+  - dev01_artifacts_compartment_name
+  - dev01_artifacts_compartment_description
+  - dev01_artifacts_enable_delete
+  - dev01_network_compartment_name
+  - dev01_network_compartment_description
+  - dev01_network_enable_delete
+
+variables:
+
+  mainbizcomp_is_root_child:
+    type: boolean
+    required: true
+    default: true
+    title: "Main compartment is root child"
+    description: "Whether the main compartment of this deployment is a child of the root compartment."
+
+  mainbizcomp_parent_compartment_name:
+    type: oci:identity:compartment:id
+    required: true
+    title: "Root Compartment"
+    description: "Choose the compartment where you want to create the compartment system."
+
+  mainbizcomp_compartment_name:
+    type: string
+    required: true
+    default: "MAIN_COMPARTMENT"
+    title: "Main compartment title"
+    description: "Choose the title for the main compartment."
+
+  mainbizcomp_compartment_description:
+    type: string
+    required: true
+    default: "Terraform created Main Business Compartment"
+    title: "Main compartment description"
+    description: "Choose the description for the main compartment."
+
+  mainbizcomp_enable_delete:
+    type: boolean
+    required: true
+    default: true
+    title: "Allow deletion by Terraform"
+    description: "Whether the main compartment can be deleted by Terraform."
+
+
+  hub01_compartment_name:
+    type: string
+    required: true
+    default: "HUB"
+    title: "Hub compartment title"
+    description: "Choose the title for the hub compartment."
+
+  hub01_compartment_description:
+    type: string
+    required: true
+    default: "Terraform created HUB Compartment"
+    title: "Hub compartment description"
+    description: "Choose the description for the hub compartment."
+
+  hub01_enable_delete:
+    type: boolean
+    required: true
+    default: true
+    title: "Allow deletion by Terraform"
+    description: "Whether the hub compartment can be deleted by Terraform."
+
+  hub01_artifacts_compartment_name:
+    type: string
+    required: true
+    default: "HUB_ARTIFACTS"
+    title: "Hub artifacts compartment title"
+    description: "Choose the title for the hub artifacts compartment."
+
+  hub01_artifacts_compartment_description:
+    type: string
+    required: true
+    default: "Terraform created HUB Artifact Compartment"
+    title: "Hub artifacts compartment description"
+    description: "Choose the description for the hub artifacts compartment."
+
+  hub01_artifacts_enable_delete:
+    type: boolean
+    required: true
+    default: true
+    title: "Allow deletion by Terraform"
+    description: "Whether the hub artifacts compartment can be deleted by Terraform."
+
+  hub01_network_compartment_name:
+    type: string
+    required: true
+    default: "HUB_NETWORK"
+    title: "Hub network compartment title"
+    description: "Choose the title for the hub network compartment."
+
+  hub01_network_compartment_description:
+    type: string
+    required: true
+    default: "Terraform created HUB Network Compartment"
+    title: "Hub network compartment description"
+    description: "Choose the description for the hub network compartment."
+
+  hub01_network_enable_delete:
+    type: boolean
+    required: true
+    default: true
+    title: "Allow deletion by Terraform"
+    description: "Whether the hub network compartment can be deleted by Terraform."
+
+
+
+  prd01_compartment_name:
+    type: string
+    required: true
+    default: "PRD"
+    title: "Prod compartment title"
+    description: "Choose the title for the prod compartment."
+
+  prd01_compartment_description:
+    type: string
+    required: true
+    default: "Terraform created prod Compartment"
+    title: "Prod compartment description"
+    description: "Choose the description for the prod compartment."
+
+  prd01_enable_delete:
+    type: boolean
+    required: true
+    default: true
+    title: "Allow deletion by Terraform"
+    description: "Whether the prod compartment can be deleted by Terraform."
+
+  prd01_artifacts_compartment_name:
+    type: string
+    required: true
+    default: "PRD_ARTIFACTS"
+    title: "Prod artifacts compartment title"
+    description: "Choose the title for the prod artifacts compartment."
+
+  prd01_artifacts_compartment_description:
+    type: string
+    required: true
+    default: "Terraform created prod Artifact Compartment"
+    title: "Prod artifacts compartment description"
+    description: "Choose the description for the prod artifacts compartment."
+
+  prd01_artifacts_enable_delete:
+    type: boolean
+    required: true
+    default: true
+    title: "Allow deletion by Terraform"
+    description: "Whether the prod artifacts compartment can be deleted by Terraform."
+
+  prd01_network_compartment_name:
+    type: string
+    required: true
+    default: "PRD_NETWORK"
+    title: "Prod network compartment title"
+    description: "Choose the title for the prod network compartment."
+
+  prd01_network_compartment_description:
+    type: string
+    required: true
+    default: "Terraform created prod Network Compartment"
+    title: "Prod network compartment description"
+    description: "Choose the description for the prod network compartment."
+
+  prd01_network_enable_delete:
+    type: boolean
+    required: true
+    default: true
+    title: "Allow deletion by Terraform"
+    description: "Whether the prod network compartment can be deleted by Terraform."
+
+
+
+
+
+
+  dev01_compartment_name:
+    type: string
+    required: true
+    default: "DEV"
+    title: "Dev compartment title"
+    description: "Choose the title for the dev compartment."
+
+  dev01_compartment_description:
+    type: string
+    required: true
+    default: "Terraform created dev Compartment"
+    title: "Dev compartment description"
+    description: "Choose the description for the dev compartment."
+
+  dev01_enable_delete:
+    type: boolean
+    required: true
+    default: true
+    title: "Allow deletion by Terraform"
+    description: "Whether the dev compartment can be deleted by Terraform."
+
+  dev01_artifacts_compartment_name:
+    type: string
+    required: true
+    default: "DEV_ARTIFACTS"
+    title: "Dev artifacts compartment title"
+    description: "Choose the title for the dev artifacts compartment."
+
+  dev01_artifacts_compartment_description:
+    type: string
+    required: true
+    default: "Terraform created dev Artifact Compartment"
+    title: "Dev artifacts compartment description"
+    description: "Choose the description for the dev artifacts compartment."
+
+  dev01_artifacts_enable_delete:
+    type: boolean
+    required: true
+    default: true
+    title: "Allow deletion by Terraform"
+    description: "Whether the dev artifacts compartment can be deleted by Terraform."
+
+  dev01_network_compartment_name:
+    type: string
+    required: true
+    default: "DEV_NETWORK"
+    title: "Dev network compartment title"
+    description: "Choose the title for the dev network compartment."
+
+  dev01_network_compartment_description:
+    type: string
+    required: true
+    default: "Terraform created dev Network Compartment"
+    title: "Dev network compartment description"
+    description: "Choose the description for the dev network compartment."
+
+  dev01_network_enable_delete:
+    type: boolean
+    required: true
+    default: true
+    title: "Allow deletion by Terraform"
+    description: "Whether the dev network compartment can be deleted by Terraform."
+
+
+# outputs:
+  
