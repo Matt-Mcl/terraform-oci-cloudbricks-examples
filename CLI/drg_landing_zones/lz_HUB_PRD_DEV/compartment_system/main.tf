@@ -6,8 +6,9 @@
 
 
 module "mainbizcomp" {
-
-  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
+  # UPDATE THESE TO REFERENCE NEW RELEASE
+  source  = "oracle-devrel/cloudbricks-compartment/oci"
+  version = "1.0.3"
   providers = {
     oci.home = oci.home
   }
@@ -33,7 +34,8 @@ module "hub01" {
   providers = {
     oci.home = oci.home
   }
-  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
+  source  = "oracle-devrel/cloudbricks-compartment/oci"
+  version = "1.0.3"
   depends_on = [module.mainbizcomp]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -55,7 +57,8 @@ module "hub01_artifacts" {
   providers = {
     oci.home = oci.home
   }
-  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
+  source  = "oracle-devrel/cloudbricks-compartment/oci"
+  version = "1.0.3"
   depends_on = [module.hub01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -77,7 +80,8 @@ module "hub01_network" {
   providers = {
     oci.home = oci.home
   }
-  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
+  source  = "oracle-devrel/cloudbricks-compartment/oci"
+  version = "1.0.3"
   depends_on = [module.hub01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -100,7 +104,8 @@ module "prd01" {
   providers = {
     oci.home = oci.home
   }
-  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
+  source  = "oracle-devrel/cloudbricks-compartment/oci"
+  version = "1.0.3"
   depends_on = [module.hub01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -122,7 +127,8 @@ module "prd01_artifacts" {
   providers = {
     oci.home = oci.home
   }
-  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
+  source  = "oracle-devrel/cloudbricks-compartment/oci"
+  version = "1.0.3"
   depends_on = [module.prd01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -144,7 +150,8 @@ module "prd01_network" {
   providers = {
     oci.home = oci.home
   }
-  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
+  source  = "oracle-devrel/cloudbricks-compartment/oci"
+  version = "1.0.3"
   depends_on = [module.prd01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -168,7 +175,8 @@ module "dev01" {
   providers = {
     oci.home = oci.home
   }
-  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
+  source  = "oracle-devrel/cloudbricks-compartment/oci"
+  version = "1.0.3"
   depends_on = [module.hub01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -190,7 +198,8 @@ module "dev01_artifacts" {
   providers = {
     oci.home = oci.home
   }
-  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
+  source  = "oracle-devrel/cloudbricks-compartment/oci"
+  version = "1.0.3"
   depends_on = [module.dev01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -212,7 +221,8 @@ module "dev01_network" {
   providers = {
     oci.home = oci.home
   }
-  source = "github.com/Matt-Mcl/terraform-oci-cloudbricks-compartment?ref=vTEMP4"
+  source  = "oracle-devrel/cloudbricks-compartment/oci"
+  version = "1.0.3"
   depends_on = [module.dev01]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid

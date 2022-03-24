@@ -179,7 +179,6 @@ variable "hub01_network_public_route_table_display_name" {
 
 /********** Private Subnet Variables **********/
 variable "hub01_network_private_subnet_cidr_block_map" {
-  type        = map(any)
   description = "Map of CIDR Blocks associated to private subnets and it's corresponding names"
 }
 
@@ -191,8 +190,7 @@ variable "hub01_network_is_private_subnet_private" {
 
 /********** Public Subnet Variables **********/
 variable "hub01_network_public_subnet_cidr_block_map" {
-  type        = map(any)
-  description = "Map of CIDR Blocks associated to private subnets and it's corresponding names"
+  description = "Map of CIDR Blocks associated to public subnets and it's corresponding names"
 }
 
 variable "hub01_network_is_public_subnet_private" {
@@ -291,6 +289,12 @@ variable "hub01_network_is_spoke" {
   default     = false
 }
 /********** Dynamic Routing Gateway Variables **********/
+
+variable "hub01_is_orm" {
+  description = "Boolean that describes if the network is being provisoned by ORM. This shouldn't ever be set to true manually."
+  default     = false
+}
+
 /************ hub01 NETWORK VARIABLES **************/
 
 /************ prd01 NETWORK VARIABLES **************/
@@ -445,7 +449,6 @@ variable "prd01_network_public_route_table_display_name" {
 
 /********** Private Subnet Variables **********/
 variable "prd01_network_private_subnet_cidr_block_map" {
-  type        = map(any)
   description = "Map of CIDR Blocks associated to private subnets and it's corresponding names"
 }
 
@@ -457,8 +460,7 @@ variable "prd01_network_is_private_subnet_private" {
 
 /********** Public Subnet Variables **********/
 variable "prd01_network_public_subnet_cidr_block_map" {
-  type        = map(any)
-  description = "Map of CIDR Blocks associated to private subnets and it's corresponding names"
+  description = "Map of CIDR Blocks associated to public subnets and it's corresponding names"
 }
 
 variable "prd01_network_is_public_subnet_private" {
@@ -549,6 +551,12 @@ variable "prd01_network_is_spoke" {
   default     = false
 }
 /************ Dynamic Routing VARIABLES **************/
+
+variable "prd01_is_orm" {
+  description = "Boolean that describes if the network is being provisoned by ORM. This shouldn't ever be set to true manually."
+  default     = false
+}
+
 /************ prd01 NETWORK VARIABLES **************/
 
 /************ dev01 NETWORK VARIABLES **************/
@@ -705,7 +713,6 @@ variable "dev01_network_public_route_table_display_name" {
 
 /********** Private Subnet Variables **********/
 variable "dev01_network_private_subnet_cidr_block_map" {
-  type        = map(any)
   description = "Map of CIDR Blocks associated to private subnets and it's corresponding names"
 }
 
@@ -717,8 +724,7 @@ variable "dev01_network_is_private_subnet_private" {
 
 /********** Public Subnet Variables **********/
 variable "dev01_network_public_subnet_cidr_block_map" {
-  type        = map(any)
-  description = "Map of CIDR Blocks associated to private subnets and it's corresponding names"
+  description = "Map of CIDR Blocks associated to public subnets and it's corresponding names"
 }
 
 variable "dev01_network_is_public_subnet_private" {
@@ -809,4 +815,10 @@ variable "dev01_network_is_spoke" {
   default     = false
 }
 /********** Dynamic Routing Gateway Variables **********/
+
+variable "dev01_is_orm" {
+  description = "Boolean that describes if the network is being provisoned by ORM. This shouldn't ever be set to true manually."
+  default     = false
+}
+
 /************ dev01 NETWORK VARIABLES **************/

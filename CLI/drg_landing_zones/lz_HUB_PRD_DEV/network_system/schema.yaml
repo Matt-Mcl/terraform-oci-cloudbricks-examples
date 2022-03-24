@@ -1,0 +1,453 @@
+## Copyright (c) 2021 Oracle and/or its affiliates.
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
+title: "HUB, PRD, DEV Network System"
+stackDescription: "Create a Network System comprised of a HUB, PRD, DEV structure."
+schemaVersion: 1.1.0
+version: "20190404"
+locale: "en"
+
+variableGroups:
+- title: General Configuration
+  visible: true
+  variables:
+  - region
+  - tenancy_ocid
+  - user_ocid
+  - fingerprint
+  - private_key_path
+  - hub01_is_orm
+  - prd01_is_orm
+  - dev01_is_orm
+
+- title: Hub Network Configuration
+  visible: true
+  variables:
+  - hub01_network_vcn_cidr_blocks
+  - hub01_network_private_subnet_cidr_block_map
+  - hub01_network_public_subnet_cidr_block_map
+  - hub01_network_vcn_display_name
+  - hub01_network_vcn_network_compartment_name
+  - hub01_network_dhcp_options_display_name
+  - hub01_network_custom_search_domain
+  - hub01_network_private_route_table_display_name
+  - hub01_network_public_route_table_display_name
+  - hub01_network_private_security_list_display_name
+  - hub01_network_public_security_list_display_name
+  - hub01_network_service_gateway_display_name
+  - hub01_network_nat_gateway_display_name
+  - hub01_network_internet_gateway_display_name
+  - hub01_network_drg_display_name
+  - hub01_network_peered_vcn_cidr_blocks
+  - hub01_network_is_spoke
+
+- title: Prod Network Configuration
+  visible: true
+  variables:
+  - prd01_network_vcn_cidr_blocks
+  - prd01_network_private_subnet_cidr_block_map
+  - prd01_network_public_subnet_cidr_block_map
+  - prd01_network_vcn_display_name
+  - prd01_network_vcn_network_compartment_name
+  - prd01_network_dhcp_options_display_name
+  - prd01_network_custom_search_domain
+  - prd01_network_private_route_table_display_name
+  - prd01_network_public_route_table_display_name
+  - prd01_network_private_security_list_display_name
+  - prd01_network_public_security_list_display_name
+  - prd01_network_service_gateway_display_name
+  - prd01_network_nat_gateway_display_name
+  - prd01_network_internet_gateway_display_name
+  - prd01_network_is_spoke
+
+- title: Dev Network Configuration
+  visible: true
+  variables:
+  - dev01_network_vcn_cidr_blocks
+  - dev01_network_private_subnet_cidr_block_map
+  - dev01_network_public_subnet_cidr_block_map
+  - dev01_network_vcn_display_name
+  - dev01_network_vcn_network_compartment_name
+  - dev01_network_dhcp_options_display_name
+  - dev01_network_custom_search_domain
+  - dev01_network_private_route_table_display_name
+  - dev01_network_public_route_table_display_name
+  - dev01_network_private_security_list_display_name
+  - dev01_network_public_security_list_display_name
+  - dev01_network_service_gateway_display_name
+  - dev01_network_nat_gateway_display_name
+  - dev01_network_internet_gateway_display_name
+  - dev01_network_is_spoke
+
+variables:
+
+  user_ocid:
+    type: string
+    required: true
+    default: "default"
+
+  fingerprint:
+    type: string
+    required: true
+    default: "default"
+
+  private_key_path:
+    type: string
+    required: true
+    default: "default"
+
+  hub01_is_orm:
+    type: boolean
+    required: true
+    default: true
+
+  prd01_is_orm:
+    type: boolean
+    required: true
+    default: true
+
+  dev01_is_orm:
+    type: boolean
+    required: true
+    default: true
+
+
+
+
+  hub01_network_vcn_cidr_blocks:
+    type: string
+    required: true
+    default: "10.0.0.0/16"
+    title: "Hub CIDR blocks"
+    description: "Choose the CIDR block(s) for the hub network. Separate each CIDR block by a comma."
+
+  hub01_network_private_subnet_cidr_block_map:
+    type: string
+    required: true
+    default: hub01_pvtsn01 = 10.0.0.0/23, hub01_pvtsn02 = 10.0.2.0/23, hub01_pvtsn03 = 10.0.4.0/23
+    title: "Hub private subnet CIDR blocks"
+    description: 'Choose the private subnet CIDR block(s) for the hub network. Use the form: subnet_name = cidr_block and separate each subnet by a comma.'
+
+  hub01_network_public_subnet_cidr_block_map:
+    type: string
+    required: true
+    default: hub01_pubsn01 = 10.0.6.0/23, hub01_pubsn02 = 10.0.8.0/23, hub01_pubsn03 = 10.0.10.0/23
+    title: "Hub public subnet CIDR blocks"
+    description: 'Choose the public subnet CIDR block(s) for the hub network. Use the form: subnet_name = "cidr_block" and separate each subnet by a comma.'
+
+  hub01_network_vcn_display_name:
+    type: string
+    required: true
+    default: "HUB_VCN"
+    title: "Hub VCN name"
+    description: "Choose the VCN name for the hub network."
+
+  hub01_network_vcn_network_compartment_name:
+    type: oci:identity:compartment:id
+    required: true
+    title: "Hub VCN compartment"
+    description: "Choose the VCN compartment for the hub network."
+
+  hub01_network_dhcp_options_display_name:
+    type: string
+    required: true
+    default: "HUB_DHCP_Options"
+    title: "Hub VCN DHCP options name"
+    description: "Choose the VCN DHCP options name for the hub network."
+
+  hub01_network_custom_search_domain:
+    type: string
+    required: true
+    default: "test.com"
+    title: "Hub VCN custom search domain name"
+    description: "Choose the VCN custom search domain name for the hub network."
+
+  hub01_network_private_route_table_display_name:
+    type: string
+    required: true
+    default: "HUB_PVT_HUB_RT"
+    title: "Hub VCN private route table name"
+    description: "Choose the VCN private route table name for the hub network."
+
+  hub01_network_public_route_table_display_name:
+    type: string
+    required: true
+    default: "HUB_PUB_HUB_RT"
+    title: "Hub VCN public route table name"
+    description: "Choose the VCN public route table name for the hub network."
+
+  hub01_network_private_security_list_display_name:
+    type: string
+    required: true
+    default: "HUB_PVT_HUB_SL"
+    title: "Hub VCN private security list name"
+    description: "Choose the VCN private security list name for the hub network."
+
+  hub01_network_public_security_list_display_name:
+    type: string
+    required: true
+    default: "HUB_PUB_HUB_SL"
+    title: "Hub VCN public security list name"
+    description: "Choose the VCN public security list name for the hub network."
+
+  hub01_network_service_gateway_display_name:
+    type: string
+    required: true
+    default: "HUB_SVC_GW"
+    title: "Hub VCN service gateway name"
+    description: "Choose the VCN service gateway name for the hub network."
+
+  hub01_network_nat_gateway_display_name:
+    type: string
+    required: true
+    default: "HUB_NAT_GW"
+    title: "Hub VCN NAT gateway name"
+    description: "Choose the VCN NAT gateway name for the hub network."
+
+  hub01_network_internet_gateway_display_name:
+    type: string
+    required: true
+    default: "HUB_INET_GW"
+    title: "Hub VCN internet gateway name"
+    description: "Choose the VCN internet gateway name for the hub network."
+
+  hub01_network_drg_display_name:
+    type: string
+    required: true
+    default: "HUB_DRG"
+    title: "Hub VCN DRG name"
+    description: "Choose the DRG name for the hub network."
+
+  hub01_network_peered_vcn_cidr_blocks:
+    type: string
+    required: true
+    default: "11.0.0.0/16, 12.0.0.0/16"
+    title: "Hub VCN peered CIDR blocks"
+    description: "Choose the peered VCN CIDR blocks for the hub network. This should be a list of the CIDR blocks in the Prod and Dev networks which will be set chosen below. Separate each CIDR block by a comma."
+
+  hub01_network_is_spoke:
+    type: boolean
+    required: true
+    default: false
+    title: "Hub is spoke"
+    description: "Choose if the Hub network is a spoke. THIS SHOULDN'T BE SET MANUALLY (HIDE)"
+
+
+
+
+  prd01_network_vcn_cidr_blocks:
+    type: string
+    required: true
+    default: ["11.0.0.0/16"]
+    title: "Prod CIDR blocks"
+    description: "Choose the CIDR block(s) for the prod network. Separate each CIDR block on a new line."
+
+  prd01_network_private_subnet_cidr_block_map:
+    type: string
+    required: true 
+    default: prd01_pvtsn01 = 11.0.0.0/23, prd01_pvtsn02 = 11.0.2.0/23, prd01_pvtsn03 = 11.0.4.0/23
+    title: "Prod private subnet CIDR blocks"
+    description: 'Choose the private subnet CIDR block(s) for the prod network. Use the form: subnet_name = "cidr_block" and separate each subnet by a comma.'
+
+  prd01_network_public_subnet_cidr_block_map:
+    type: string
+    required: true 
+    default: prd01_pubsn01 = 11.0.6.0/23, prd01_pubsn02 = 11.0.8.0/23, prd01_pubsn03 = 11.0.10.0/23
+    title: "Prod public subnet CIDR blocks"
+    description: 'Choose the public subnet CIDR block(s) for the prod network. Use the form: subnet_name = "cidr_block" and separate each subnet by a comma.'
+
+  prd01_network_vcn_display_name:
+    type: string
+    required: true
+    default: "PRD_VCN"
+    title: "Prod VCN name"
+    description: "Choose the VCN name for the prod network."
+
+  prd01_network_vcn_network_compartment_name:
+    type: oci:identity:compartment:id
+    required: true
+    title: "Prod VCN compartment"
+    description: "Choose the VCN compartment for the prod network."
+
+  prd01_network_dhcp_options_display_name:
+    type: string
+    required: true
+    default: "PRD_DHCP_Options"
+    title: "Prod VCN DHCP options name"
+    description: "Choose the VCN DHCP options name for the prod network."
+
+  prd01_network_custom_search_domain:
+    type: string
+    required: true
+    default: "test.com"
+    title: "Prod VCN custom search domain name"
+    description: "Choose the VCN custom search domain name for the prod network."
+
+  prd01_network_private_route_table_display_name:
+    type: string
+    required: true
+    default: "PRD_PVT_PRD_RT"
+    title: "Prod VCN private route table name"
+    description: "Choose the VCN private route table name for the prod network."
+
+  prd01_network_public_route_table_display_name:
+    type: string
+    required: true
+    default: "PRD_PUB_PRD_RT"
+    title: "Prod VCN public route table name"
+    description: "Choose the VCN public route table name for the prod network."
+
+  prd01_network_private_security_list_display_name:
+    type: string
+    required: true
+    default: "PRD_PVT_PRD_SL"
+    title: "Prod VCN private security list name"
+    description: "Choose the VCN private security list name for the prod network."
+
+  prd01_network_public_security_list_display_name:
+    type: string
+    required: true
+    default: "PRD_PUB_PRD_SL"
+    title: "Prod VCN public security list name"
+    description: "Choose the VCN public security list name for the prod network."
+
+  prd01_network_service_gateway_display_name:
+    type: string
+    required: true
+    default: "PRD_SVC_GW"
+    title: "Prod VCN service gateway name"
+    description: "Choose the VCN service gateway name for the prod network."
+
+  prd01_network_nat_gateway_display_name:
+    type: string
+    required: true
+    default: "PRD_NAT_GW"
+    title: "Prod VCN NAT gateway name"
+    description: "Choose the VCN NAT gateway name for the prod network."
+
+  prd01_network_internet_gateway_display_name:
+    type: string
+    required: true
+    default: "PRD_INET_GW"
+    title: "Prod VCN internet gateway name"
+    description: "Choose the VCN internet gateway name for the prod network."
+
+  prd01_network_is_spoke:
+    type: boolean
+    required: true
+    default: true
+    title: "Prod is spoke"
+    description: "Choose if the Prod network is a spoke. THIS SHOULDN'T BE SET MANUALLY (HIDE)"
+
+
+
+
+  dev01_network_vcn_cidr_blocks:
+    type: string
+    required: true
+    default: ["12.0.0.0/16"]
+    title: "Dev CIDR blocks"
+    description: "Choose the CIDR block(s) for the dev network. Separate each CIDR block on a new line."
+
+  dev01_network_private_subnet_cidr_block_map:
+    type: string
+    required: true 
+    default: dev01_pvtsn01 = 12.0.0.0/23, dev01_pvtsn02 = 12.0.2.0/23, dev01_pvtsn03 = 12.0.4.0/23
+    title: "Dev private subnet CIDR blocks"
+    description: 'Choose the private subnet CIDR block(s) for the dev network. Use the form: subnet_name = "cidr_block" and separate each subnet by a comma.'
+
+  dev01_network_public_subnet_cidr_block_map:
+    type: string
+    required: true 
+    default: dev01_pubsn01 = 12.0.6.0/23, dev01_pubsn02 = 12.0.8.0/23, dev01_pubsn03 = 12.0.10.0/23
+    title: "Dev public subnet CIDR blocks"
+    description: 'Choose the public subnet CIDR block(s) for the dev network. Use the form: subnet_name = "cidr_block" and separate each subnet by a comma.'
+
+  dev01_network_vcn_display_name:
+    type: string
+    required: true
+    default: "DEV_VCN"
+    title: "Dev VCN name"
+    description: "Choose the VCN name for the dev network."
+
+  dev01_network_vcn_network_compartment_name:
+    type: oci:identity:compartment:id
+    required: true
+    title: "Dev VCN compartment"
+    description: "Choose the VCN compartment for the dev network."
+
+  dev01_network_dhcp_options_display_name:
+    type: string
+    required: true
+    default: "DEV_DHCP_Options"
+    title: "Dev VCN DHCP options name"
+    description: "Choose the VCN DHCP options name for the dev network."
+
+  dev01_network_custom_search_domain:
+    type: string
+    required: true
+    default: "test.com"
+    title: "Dev VCN custom search domain name"
+    description: "Choose the VCN custom search domain name for the dev network."
+
+  dev01_network_private_route_table_display_name:
+    type: string
+    required: true
+    default: "DEV_PVT_DEV_RT"
+    title: "Dev VCN private route table name"
+    description: "Choose the VCN private route table name for the dev network."
+
+  dev01_network_public_route_table_display_name:
+    type: string
+    required: true
+    default: "DEV_PUB_DEV_RT"
+    title: "Dev VCN public route table name"
+    description: "Choose the VCN public route table name for the dev network."
+
+  dev01_network_private_security_list_display_name:
+    type: string
+    required: true
+    default: "DEV_PVT_DEV_SL"
+    title: "Dev VCN private security list name"
+    description: "Choose the VCN private security list name for the dev network."
+
+  dev01_network_public_security_list_display_name:
+    type: string
+    required: true
+    default: "DEV_PUB_DEV_SL"
+    title: "Dev VCN public security list name"
+    description: "Choose the VCN public security list name for the dev network."
+
+  dev01_network_service_gateway_display_name:
+    type: string
+    required: true
+    default: "DEV_SVC_GW"
+    title: "Dev VCN service gateway name"
+    description: "Choose the VCN service gateway name for the dev network."
+
+  dev01_network_nat_gateway_display_name:
+    type: string
+    required: true
+    default: "DEV_NAT_GW"
+    title: "Dev VCN NAT gateway name"
+    description: "Choose the VCN NAT gateway name for the dev network."
+
+  dev01_network_internet_gateway_display_name:
+    type: string
+    required: true
+    default: "DEV_INET_GW"
+    title: "Dev VCN internet gateway name"
+    description: "Choose the VCN internet gateway name for the dev network."
+
+  dev01_network_is_spoke:
+    type: boolean
+    required: true
+    default: true
+    title: "Dev is spoke"
+    description: "Choose if the Dev network is a spoke. THIS SHOULDN'T BE SET MANUALLY (HIDE)"
+
+
+
+
+# outputs:
+  

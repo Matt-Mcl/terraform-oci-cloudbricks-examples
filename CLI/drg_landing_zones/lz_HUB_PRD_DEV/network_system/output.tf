@@ -4,7 +4,7 @@
 #
 # Purpose: The following script defines the output for system created
 
-output "hub01_network" {
+output "hub01_network_vcn" {
   description = "VCN of hub01"
   value       = module.hub01_network.vcn
 }

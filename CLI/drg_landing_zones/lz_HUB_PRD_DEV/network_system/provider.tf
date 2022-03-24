@@ -4,12 +4,13 @@
 #
 # Purpose: The following file defines the providers used in this implementation
 
+
 terraform {
-  required_version = ">= 0.13.5"
+  required_version = ">= 1.0.0"
   required_providers {
     oci = {
       source                = "hashicorp/oci"
-      version               = ">= 4.36.0"
+      version               = ">= 4.68.0"
       configuration_aliases = [oci.home]
     }
   }

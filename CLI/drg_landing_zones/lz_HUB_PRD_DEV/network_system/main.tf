@@ -6,7 +6,9 @@
 
 
 module "hub01_network" {
-  source = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-network-artifacts.git?ref=v2.0.1"
+  # source  = "oracle-devrel/cloudbricks-network-artifacts/oci"
+  # version = "2.0.1"
+  source = "github.com/oraclecloudbricks/terraform-oci-cloudbricks-network-artifacts?ref=er-orm"
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
   region           = var.region
@@ -32,13 +34,16 @@ module "hub01_network" {
   drg_display_name                   = var.hub01_network_drg_display_name
   peered_vcn_cidr_blocks             = var.hub01_network_peered_vcn_cidr_blocks
   is_spoke                           = var.hub01_network_is_spoke
+  is_orm                             = var.hub01_is_orm
   ######################################## ARTIFACT SPECIFIC VARIABLES ######################################
 }
 
 
 module "prd01_network" {
+  # source     = "oracle-devrel/cloudbricks-network-artifacts/oci"
+  # version    = "2.0.1"
+  source = "github.com/oraclecloudbricks/terraform-oci-cloudbricks-network-artifacts?ref=er-orm"
   depends_on = [module.hub01_network]
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-network-artifacts.git?ref=v2.0.1"
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
   region           = var.region
@@ -61,16 +66,19 @@ module "prd01_network" {
   service_gateway_display_name       = var.prd01_network_service_gateway_display_name
   nat_gateway_display_name           = var.prd01_network_nat_gateway_display_name
   internet_gateway_display_name      = var.prd01_network_internet_gateway_display_name
-  drg_display_name                   = var.hub01_network_drg_display_name
-  hub_vcn_compartment_name           = var.hub01_network_vcn_network_compartment_name
-  hub_vcn_display_name               = var.hub01_network_vcn_display_name
+  drg_display_name                   = module.hub01_network.dynamic_routing_gateway[0].display_name #var.hub01_network_drg_display_name
+  hub_vcn_compartment_name           = module.hub01_network.vcn.compartment_id                      #var.hub01_network_vcn_network_compartment_name
+  hub_vcn_display_name               = module.hub01_network.vcn.display_name
   is_spoke                           = var.prd01_network_is_spoke
+  is_orm                             = var.prd01_is_orm
   ######################################## ARTIFACT SPECIFIC VARIABLES ######################################
 }
 
 
 module "dev01_network" {
-  source     = "git::ssh://git@github.com/oracle-devrel/terraform-oci-cloudbricks-network-artifacts.git?ref=v2.0.1"
+  # source     = "oracle-devrel/cloudbricks-network-artifacts/oci"
+  # version    = "2.0.1"
+  source = "github.com/oraclecloudbricks/terraform-oci-cloudbricks-network-artifacts?ref=er-orm"
   depends_on = [module.hub01_network]
   ######################################## PROVIDER SPECIFIC VARIABLES ######################################
   tenancy_ocid     = var.tenancy_ocid
@@ -94,9 +102,10 @@ module "dev01_network" {
   service_gateway_display_name       = var.dev01_network_service_gateway_display_name
   nat_gateway_display_name           = var.dev01_network_nat_gateway_display_name
   internet_gateway_display_name      = var.dev01_network_internet_gateway_display_name
-  drg_display_name                   = var.hub01_network_drg_display_name
-  hub_vcn_compartment_name           = var.hub01_network_vcn_network_compartment_name
-  hub_vcn_display_name               = var.hub01_network_vcn_display_name
+  drg_display_name                   = module.hub01_network.dynamic_routing_gateway[0].display_name
+  hub_vcn_compartment_name           = module.hub01_network.vcn.compartment_id
+  hub_vcn_display_name               = module.hub01_network.vcn.display_name
   is_spoke                           = var.dev01_network_is_spoke
+  is_orm                             = var.dev01_is_orm
   ######################################## ARTIFACT SPECIFIC VARIABLES ######################################
 }
